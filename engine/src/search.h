@@ -1058,6 +1058,8 @@ void iterative_deepen(
       // the last search score in order to get cutoffs faster. If our search
       // lands outside the bounds, expand them and try again.
 
+      //thread_info.doing_datagen = false;
+
       while (score <= alpha || score >= beta || thread_data.stop ||
              thread_info.datagen_stop) {
 
@@ -1142,8 +1144,8 @@ void iterative_deepen(
           nps = wezly;
         }
 
-        if (!thread_info.doing_datagen /*&&
-            !(thread_info.is_human && thread_info.multipv_index)*/) {
+        if (!thread_info.doing_datagen &&
+            !(thread_info.is_human && thread_info.multipv_index)) {
           printf("info multipv %i depth %i seldepth %i score %s nodes %" PRIu64
                  " nps %" PRIi64 " time %" PRIi64 " pv ",
                  thread_info.multipv_index + 1, depth, thread_info.seldepth,
@@ -1204,7 +1206,7 @@ void iterative_deepen(
 finish:
   // wait for all threads to finish searching
   // printf("%i\n", thread_info.thread_id);
-  if (thread_info.thread_id == 0) {
+  if (thread_info.thread_id == 0 && !thread_info.doing_datagen) {
     thread_data.stop = true;
   }
   search_end_barrier.arrive_and_wait();
@@ -1212,6 +1214,14 @@ finish:
       !thread_info.is_human) {
     printf("bestmove %s\n",
            internal_to_uci(position, thread_info.best_moves[0]).c_str());
+
+
+           if (thread_info.best_moves[0] == MoveNone){
+            print_board(position);
+            printf("e\n");
+            exit(0);
+          }
+
   }
 }
 

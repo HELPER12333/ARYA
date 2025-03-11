@@ -772,6 +772,8 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
       // Increase reduction if not improving
       R += !improving;
 
+      R -= attacks_square(moved_position, get_king_pos(position, color ^ 1), color);
+
       R += cutnode;
 
 

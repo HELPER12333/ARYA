@@ -22,7 +22,7 @@
 #endif
 
 constexpr size_t INPUT_SIZE = 768;
-constexpr size_t LAYER1_SIZE = 768;
+constexpr size_t LAYER1_SIZE = 256;
 
 constexpr int SCRELU_MIN = 0;
 constexpr int SCRELU_MAX = 255;
@@ -45,8 +45,8 @@ struct alignas(64) NNUE_Params {
 };
 
 INCBIN(nnue, "nets/firefly.nnue");
-INCBIN(nnue2, "nets/rw3.nnue");
-INCBIN(nnue3, "nets/allie.nnue");
+INCBIN(nnue2, "nets/firefly.nnue");
+INCBIN(nnue3, "nets/firefly.nnue");
 
 const NNUE_Params &g_nnue = *reinterpret_cast<const NNUE_Params *>(g_nnueData);
 const NNUE_Params &g_nnue2 =

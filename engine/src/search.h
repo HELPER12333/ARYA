@@ -774,6 +774,8 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
 
       R += cutnode;
 
+      R -= (tt_hit && entry.depth > depth);
+
 
       // Clamp reduction so we don't immediately go into qsearch
       R = std::clamp(R, 0, newdepth - 1);

@@ -530,6 +530,8 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
 
   bool improving = false;
 
+  int correction = std::abs(static_eval - raw_eval);
+
   // Improving: Is our eval better than it was last turn? If so we can prune
   // less in certain circumstances (or prune more if it's not)
 
@@ -780,6 +782,8 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
       R += cutnode;
 
       R -= (attacks_square(moved_position, get_king_pos(position, color ^ 1), color) != 0);
+
+      R -= correction > 20;
 
 
       // Clamp reduction so we don't immediately go into qsearch

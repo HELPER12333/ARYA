@@ -783,7 +783,7 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
 
       R -= (attacks_square(moved_position, get_king_pos(position, color ^ 1), color) != 0);
 
-      R -= correction > 20;
+      R += correction > 20;
 
 
       // Clamp reduction so we don't immediately go into qsearch

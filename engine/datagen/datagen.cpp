@@ -143,11 +143,11 @@ void play_game(ThreadInfo &thread_info, uint64_t &num_fens, int id,
     }
 
     if (best_move == MoveNone) {
-      printf("%lu\n", thread_info.nodes);
       print_board(position);
+      printf("%i\n", fkey);
       thread_info.doing_datagen = false;
       search_position(position, thread_info, TT);
-      std::exit(1);
+      exit(0);
     }
 
     bool is_noisy = is_cap(position, best_move);
@@ -175,6 +175,10 @@ void play_game(ThreadInfo &thread_info, uint64_t &num_fens, int id,
         printf("~%li positions written\n", total_fens);
         printf("Approximate speed: %" PRIi64 " pos/s\n\n",
                (int64_t)(total_fens * 1000 / time_elapsed(start_time)));
+
+        if (total_fens > 51000000){
+          exit(0);
+        }
       }
     }
   }
